@@ -1,0 +1,51 @@
+{
+  "name": "esmocha",
+  "version": "0.0.0",
+  "keywords": [
+    "mocha",
+    "typescript",
+    "esbuild",
+    "mock",
+    "expect",
+    "snapshot",
+    "jest-snapshot",
+    "jest-mock"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.ts",
+      "default": "./dist/index.ts"
+    }
+  },
+  "bin": "./dist/bin.cjs",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "postbuild": "cpy bin.cjs ../dist --cwd=src",
+    "prepare": "npm run build",
+    "test": ""
+  },
+  "dependencies": {
+    "@node-loaders/auto": "^0.7.0",
+    "@node-loaders/esbuild": "^0.8.0",
+    "@node-loaders/jest-mock": "^0.2.3",
+    "execa": "^7.1.1",
+    "mocha": "^10.2.0",
+    "mocha-expect-snapshot": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.3",
+    "cpy-cli": "^4.2.0",
+    "prettier-plugin-packagejson": "^2.4.3",
+    "rimraf": "^5.0.0",
+    "typescript": "^5.0.4",
+    "xo": "^0.54.2"
+  },
+  "engines": {
+    "node": "^16.13.0 || >=18.12.0"
+  }
+}
