@@ -12,10 +12,12 @@
     "jest-mock"
   ],
   "type": "module",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
   "exports": {
     ".": {
-      "types": "./dist/index.ts",
-      "default": "./dist/index.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     }
   },
   "bin": "./dist/bin.cjs",
