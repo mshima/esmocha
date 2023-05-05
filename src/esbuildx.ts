@@ -1,32 +1,33 @@
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
-import { join } from 'node:path';
 import process from 'node:process';
 import { execa, type ExecaError } from 'execa';
 
 const require = createRequire(import.meta.url);
 
-export type Options = { executable: string; argv?: string[]; nodeArgv?: string[] };
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export type EsbuildXOptions = {
+  executable?: string;
+  loaderUrl?: string;
+  argv?: string[];
+  nodeArgv?: string[];
+  additionalArgv?: string[];
+};
 
-export default async function run(options?: string | Options) {
+export default async function esbuildx(options?: string | EsbuildXOptions) {
   options = typeof options === 'string' ? { executable: options } : options;
-  const { executable, argv = process.argv.slice(2), nodeArgv = [] } = options ?? {};
-  const loaderUrl = pathToFileURL(require.resolve('@node-loaders/auto/strict')).toString();
-  const spawnArgv = executable ? [executable, ...argv] : argv;
+  const {
+    executable,
+    loaderUrl = pathToFileURL(require.resolve('@node-loaders/esbuild')).toString(),
+    argv = process.argv.slice(2),
+    nodeArgv = [],
+    additionalArgv = [],
+  } = options ?? {};
+  const spawnArgv = executable ? [executable, ...argv, ...additionalArgv] : argv;
 
   const child = execa(
     process.execPath,
-    [
-      '--loader',
-      loaderUrl,
-      '--require',
-      require.resolve('./suppress-warnings.cjs'),
-      join(require.resolve('mocha'), '../bin/mocha.js'),
-      ...nodeArgv,
-      ...spawnArgv,
-      '--require',
-      require.resolve('mocha-expect-snapshot'),
-    ],
+    ['--loader', loaderUrl, '--require', require.resolve('./suppress-warnings.cjs'), ...nodeArgv, ...spawnArgv],
     {
       stdio: 'inherit',
     },
