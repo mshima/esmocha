@@ -14,7 +14,7 @@ npm install esmocha --save-dev
 npx esmocha
 ```
 
-Every method is reexported.
+Every method is re-exported.
 
 ```js
 // expect lib
@@ -23,6 +23,18 @@ import { expect } from 'esmocha';
 import { mock, resetAllMocks } from 'esmocha';
 // mocha lib
 import { afterAll, beforeAll } from 'esmocha';
+```
+
+Manual loading:
+
+```sh
+npx mocha --require esmocha/mocha --loader esmocha/loader
+```
+
+Updating expect snapshots:
+
+```
+npx esmocha --update-snapshot
 ```
 
 ## License

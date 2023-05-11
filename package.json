@@ -12,14 +12,20 @@
     "jest-mock"
   ],
   "type": "module",
-  "types": "./dist/index.d.ts",
-  "main": "./dist/index.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./loader": {
+      "default": "./dist/loader.js"
+    },
+    "./mocha": {
+      "default": "./dist/mocha.cjs"
     }
   },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "bin": "./dist/bin.cjs",
   "files": [
     "dist"
@@ -38,7 +44,6 @@
     "@node-loaders/jest-mock": "^1.0.1",
     "@types/mocha": "^10.0.1",
     "execa": "^7.1.1",
-    "mocha": "^10.2.0",
     "mocha-expect-snapshot": "^7.0.0"
   },
   "devDependencies": {
@@ -48,6 +53,9 @@
     "rimraf": "^5.0.0",
     "typescript": "^5.0.4",
     "xo": "^0.54.2"
+  },
+  "peerDependencies": {
+    "mocha": "^10.2.0"
   },
   "engines": {
     "node": "^16.13.0 || >=18.12.0"

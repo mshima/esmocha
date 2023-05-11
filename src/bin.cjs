@@ -19,7 +19,7 @@ module.exports = (async () => {
   const { default: esbuildx } = await import('@node-loaders/esbuildx');
   await esbuildx({
     executable: join(require.resolve('mocha'), '../bin/mocha.js'),
-    loaderUrl: pathToFileURL(require.resolve('@node-loaders/auto/strict')).toString(),
-    additionalArgv: ['--require', require.resolve('mocha-expect-snapshot')],
+    loaderUrl: pathToFileURL(join(__dirname, 'loader.js')).toString(),
+    additionalArgv: ['--require', join(__dirname, 'mocha.cjs')],
   });
 })();
