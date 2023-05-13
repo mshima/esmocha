@@ -35,7 +35,8 @@
     "build": "tsc",
     "postbuild": "cpy bin.cjs ../dist --cwd=src",
     "prepare": "npm run build",
-    "test": ""
+    "pretest": "npm run build",
+    "test": "./dist/bin.cjs"
   },
   "dependencies": {
     "@node-loaders/auto": "^1.0.1",
