@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const Module = require('node:module');
 const { join } = require('node:path');
 const process = require('node:process');
 const { pathToFileURL } = require('node:url');
@@ -14,11 +15,18 @@ if (updateSnapshotIndex > -1) {
   process.env.UPDATE_SNAPSHOT = updateSnapshotValue;
 }
 
+const executable = join(require.resolve('mocha'), '../bin/mocha.js');
 // eslint-disable-next-line unicorn/prefer-top-level-await
 module.exports = (async () => {
+  if (Module.register) {
+    process.argv.push('--require', require.resolve('./register-loaders.cjs'));
+    await import(executable);
+    return;
+  }
+
   const { default: esbuildx } = await import('@node-loaders/esbuildx');
   await esbuildx({
-    executable: join(require.resolve('mocha'), '../bin/mocha.js'),
+    executable,
     loaderUrl: pathToFileURL(join(__dirname, 'loader.js')).toString(),
     additionalArgv: ['--require', join(__dirname, 'mocha.cjs')],
   });
