@@ -16,10 +16,11 @@ if (updateSnapshotIndex > -1) {
 }
 
 const executable = join(require.resolve('mocha'), '../bin/mocha.js');
+const mochaRequire = require.resolve('./mocha.cjs');
 // eslint-disable-next-line unicorn/prefer-top-level-await
 module.exports = (async () => {
   if (Module.register) {
-    process.argv.push('--require', require.resolve('./register-loaders.cjs'));
+    process.argv.push('--require', mochaRequire);
     await import(executable);
     return;
   }
@@ -28,6 +29,6 @@ module.exports = (async () => {
   await esbuildx({
     executable,
     loaderUrl: pathToFileURL(join(__dirname, 'loader.js')).toString(),
-    additionalArgv: ['--require', join(__dirname, 'mocha.cjs')],
+    additionalArgv: ['--require', mochaRequire],
   });
 })();
