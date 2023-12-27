@@ -21,7 +21,7 @@ const mochaRequire = require.resolve('./mocha.cjs');
 module.exports = (async () => {
   if (Module.register) {
     process.argv.push('--require', mochaRequire);
-    await import(executable);
+    await import(pathToFileURL(executable));
     return;
   }
 
