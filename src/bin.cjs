@@ -4,6 +4,10 @@ const { join } = require('node:path');
 const process = require('node:process');
 const { pathToFileURL } = require('node:url');
 
+if (!Module.register) {
+  throw new Error('Node.js version must be >=20.6.0 or >=18.19.0');
+}
+
 let updateSnapshotIndex = process.argv.indexOf('--update-snapshot');
 if (updateSnapshotIndex === -1) {
   updateSnapshotIndex = process.argv.indexOf('--updateSnapshot');
@@ -19,16 +23,6 @@ const executable = join(require.resolve('mocha'), '../bin/mocha.js');
 const mochaRequire = require.resolve('./mocha.cjs');
 // eslint-disable-next-line unicorn/prefer-top-level-await
 module.exports = (async () => {
-  if (Module.register) {
-    process.argv.push('--require', mochaRequire);
-    await import(pathToFileURL(executable));
-    return;
-  }
-
-  const { default: esbuildx } = await import('@node-loaders/esbuildx');
-  await esbuildx({
-    executable,
-    loaderUrl: pathToFileURL(join(__dirname, 'loader.js')).toString(),
-    additionalArgv: ['--require', mochaRequire],
-  });
+  process.argv.push('--require', mochaRequire);
+  await import(pathToFileURL(executable));
 })();
