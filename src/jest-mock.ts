@@ -1,6 +1,6 @@
-import quibble from 'quibble';
 import { ModuleMocker, type Mocked } from 'jest-mock';
 
+let quibble: typeof import('quibble').default;
 const moduleMocker = new ModuleMocker(global);
 
 export const resetAllMocks = moduleMocker.resetAllMocks.bind(moduleMocker);
@@ -15,7 +15,9 @@ export const clearAllMocks = moduleMocker.clearAllMocks.bind(moduleMocker);
 
 export const isMockFunction = moduleMocker.isMockFunction.bind(moduleMocker);
 
-export const reset = quibble.reset.bind(quibble);
+export const reset = (hard?: boolean) => {
+    quibble?.reset(hard);
+};
 
 /**
  * Mock a resolved specifier
@@ -29,7 +31,7 @@ export async function mock<const MockedType = any>(
 ): Promise<Mocked<MockedType>> {
   const metadata = moduleMocker.getMetadata<MockedType>(await actual)!;
   const mockReturn: Mocked<MockedType> | undefined = moduleMocker.generateFromMetadata(metadata);
-
+  quibble = (await import('quibble')).default;
   quibble(specifier, mockReturn);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   await quibble.esm(specifier, mockReturn as any);
