@@ -15,11 +15,7 @@ export const clearAllMocks = moduleMocker.clearAllMocks.bind(moduleMocker);
 
 export const isMockFunction = moduleMocker.isMockFunction.bind(moduleMocker);
 
-/**
- * Remove module mocks
- */
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-export const reset = (): void => quibble.reset();
+export const reset = quibble.reset.bind(quibble);
 
 /**
  * Mock a resolved specifier
@@ -33,7 +29,9 @@ export async function mock<const MockedType = any>(
 ): Promise<Mocked<MockedType>> {
   const metadata = moduleMocker.getMetadata<MockedType>(await actual)!;
   const mockReturn: Mocked<MockedType> | undefined = moduleMocker.generateFromMetadata(metadata);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  await quibble.esm(specifier, mockReturn);
+
+  quibble(specifier, mockReturn);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  await quibble.esm(specifier, mockReturn as any);
   return mockReturn;
 }
