@@ -1,6 +1,6 @@
 import { ModuleMocker, type Mocked } from 'jest-mock';
-import { resolveCallerUrl } from './caller-resolve.js';
 import type Quibble from 'quibble';
+import { resolveCallerUrl } from './caller-resolve.js';
 
 let quibble: typeof Quibble;
 const moduleMocker = new ModuleMocker(global);
