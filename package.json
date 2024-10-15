@@ -11,6 +11,16 @@
     "jest-snapshot",
     "jest-mock"
   ],
+  "homepage": "https://github.com/mshima/esmocha",
+  "bugs": "https://github.com/mshima/esmocha/issues",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mshima/esmocha.git"
+  },
+  "author": {
+    "name": "Marcelo Shima",
+    "url": "https://github.com/mshima"
+  },
   "type": "module",
   "exports": {
     ".": {
