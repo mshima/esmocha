@@ -13,4 +13,13 @@ describe('esmocha', () => {
     pathMocked.relative('a', 'b');
     expect(pathMock.relative).toHaveBeenCalled();
   });
+
+  it('should mock relative files', async () => {
+    const pathMock = await esmocha.mock('./dummy-mocked-module.js', import('node:path'));
+    const pathMocked = (await import('./dummy-mocked-module.js')) as unknown as typeof pathMock;
+    expect(pathMock.relative).toBe(pathMocked.relative);
+
+    pathMocked.relative('a', 'b');
+    expect(pathMock.relative).toHaveBeenCalled();
+  });
 });
