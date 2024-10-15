@@ -25,12 +25,6 @@ import { mock, resetAllMocks } from 'esmocha';
 import { afterAll, beforeAll } from 'esmocha';
 ```
 
-Manual loading:
-
-```sh
-npx mocha --require esmocha/mocha --loader esmocha/loader
-```
-
 Updating expect snapshots:
 
 ```
