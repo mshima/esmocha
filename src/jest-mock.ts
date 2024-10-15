@@ -26,18 +26,32 @@ export const reset = (hard?: boolean) => {
  * @param specifier
  * @returns
  */
-export async function mock<const MockedType = any>(
+export async function mock<const MockedType extends object = any>(
+  specifier: string,
+  actual: Promise<MockedType>,
+): Promise<Mocked<MockedType>>
+export async function mock<const MockedType extends object = any>(
+  specifier: string,
+  actual: MockedType,
+): Promise<MockedType>;
+export async function mock<const MockedType extends object = any>(
   specifier: string,
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  actual: Promise<MockedType> = import(specifier),
-): Promise<Mocked<MockedType>> {
+  actual: Promise<MockedType> | MockedType = import(specifier),
+): Promise<Mocked<MockedType> | MockedType> {
   if (specifier.startsWith('.')) {
     // Resolve relative paths since quibble will resolve having this file as the caller
     specifier = new URL(specifier, resolveCallerUrl()).href;
   }
 
-  const metadata = moduleMocker.getMetadata<MockedType>(await actual)!;
-  const mockReturn: Mocked<MockedType> | undefined = moduleMocker.generateFromMetadata(metadata);
+  let mockReturn: Mocked<MockedType> | MockedType | undefined;
+  if ('then' in actual) {
+    const metadata = moduleMocker.getMetadata<MockedType>(await actual)!;
+    mockReturn = moduleMocker.generateFromMetadata(metadata);
+  } else {
+    mockReturn = actual;
+  }
+
   const quibbleModule = await import('quibble');
   quibble = quibbleModule.default;
   quibble(specifier, mockReturn);
