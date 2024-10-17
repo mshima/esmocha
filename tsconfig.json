@@ -1,5 +1,5 @@
 {
-  "include": ["src/*.ts", "src/mocha.cjs", "src/register-loaders.cjs", "quibble.d.ts"],
+  "include": ["src/*.ts", "quibble.d.ts"],
   "compilerOptions": {
     /* Language and Environment */
     "target": "ES2022" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,

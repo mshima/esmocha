@@ -20,7 +20,7 @@ if (updateSnapshotIndex > -1) {
 }
 
 const executable = join(require.resolve('mocha'), '../bin/mocha.js');
-const mochaRequire = require.resolve('./mocha.cjs');
+const mochaRequire = require.resolve('./hooks.js');
 // eslint-disable-next-line unicorn/prefer-top-level-await
 module.exports = (async () => {
   process.argv.push('--require', mochaRequire);
