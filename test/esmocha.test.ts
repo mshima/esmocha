@@ -30,7 +30,7 @@ describe('esmocha', () => {
   });
 
   it('non promises mock inject the object as it is', async () => {
-    const pathMock = await esmocha.mock('path', { ...await import('node:path') });
+    const pathMock = await esmocha.mock('path', { ...(await import('node:path')) });
     expect(esmocha.isMockFunction(pathMock.relative)).toBe(false);
   });
 });

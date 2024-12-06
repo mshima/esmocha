@@ -29,11 +29,8 @@ export const reset = (hard?: boolean) => {
 export async function mock<const MockedType extends object = any>(
   specifier: string,
   actual: Promise<MockedType>,
-): Promise<Mocked<MockedType>>
-export async function mock<const MockedType extends object = any>(
-  specifier: string,
-  actual: MockedType,
-): Promise<MockedType>;
+): Promise<Mocked<MockedType>>;
+export async function mock<const MockedType extends object = any>(specifier: string, actual: MockedType): Promise<MockedType>;
 export async function mock<const MockedType extends object = any>(
   specifier: string,
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
