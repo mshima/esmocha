@@ -3,7 +3,7 @@ import type Quibble from 'quibble';
 import { resolveCallerUrl } from './caller-resolve.js';
 
 let quibble: typeof Quibble;
-const moduleMocker = new ModuleMocker(global);
+const moduleMocker = new ModuleMocker(globalThis);
 
 export const resetAllMocks = moduleMocker.resetAllMocks.bind(moduleMocker);
 
@@ -26,14 +26,16 @@ export const reset = (hard?: boolean) => {
  * @param specifier
  * @returns
  */
-export async function mock<const MockedType extends object = any>(
+export async function mock<const MockedType extends Record<string, unknown> = any>(
   specifier: string,
   actual: Promise<MockedType>,
 ): Promise<Mocked<MockedType>>;
-export async function mock<const MockedType extends object = any>(specifier: string, actual: MockedType): Promise<MockedType>;
-export async function mock<const MockedType extends object = any>(
+export async function mock<const MockedType extends Record<string, unknown> = any>(
   specifier: string,
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  actual: MockedType,
+): Promise<MockedType>;
+export async function mock<const MockedType extends Record<string, unknown> = any>(
+  specifier: string,
   actual: Promise<MockedType> | MockedType = import(specifier),
 ): Promise<Mocked<MockedType> | MockedType> {
   if (specifier.startsWith('.')) {

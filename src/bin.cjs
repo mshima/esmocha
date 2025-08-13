@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const Module = require('node:module');
-const { join } = require('node:path');
+const path = require('node:path');
 const process = require('node:process');
 const { pathToFileURL } = require('node:url');
 
@@ -19,9 +19,9 @@ if (updateSnapshotIndex > -1) {
   process.env.UPDATE_SNAPSHOT = updateSnapshotValue;
 }
 
-const executable = join(require.resolve('mocha'), '../bin/mocha.js');
+const executable = path.join(require.resolve('mocha'), '../bin/mocha.js');
 const mochaRequire = require.resolve('./mocha.cjs');
-// eslint-disable-next-line unicorn/prefer-top-level-await
+
 module.exports = (async () => {
   process.argv.push('--require', mochaRequire);
   await import(pathToFileURL(executable));
