@@ -20,8 +20,8 @@ describe('esmocha', () => {
   });
 
   it('should mock relative files', async () => {
-    const pathMock = await esmocha.mock('./dummy-mocked-module.js', import('node:path'));
-    const pathMocked = (await import('./dummy-mocked-module.js')) as unknown as typeof pathMock;
+    const pathMock = await esmocha.mock('./dummy-mocked-module.ts', import('node:path'));
+    const pathMocked = (await import('./dummy-mocked-module.ts')) as unknown as typeof pathMock;
     expect(esmocha.isMockFunction(pathMock.relative)).toBe(true);
     expect(pathMock.relative).toBe(pathMocked.relative);
 
